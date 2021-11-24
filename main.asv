@@ -1,0 +1,11 @@
+clear
+
+%import data
+HR_image = rgb2gray(imread('./stars/Full Res Star.png'));
+LR_images = {};
+for i = 1:5
+    LR_images{i} = rgb2gray(imread('./stars/Low Res Star 1.png'));
+end
+im
+%global variables
+%low-res_images = 
