@@ -5,7 +5,7 @@ HR_image = rgb2gray(imread('./stars/Full Res Star.png')); % High-res/ground trut
 LR_images = {}; % low-res images
 for i = 1:5
     file = sprintf('./stars/Low Res Star %d.png', i)
-    LR_images{i} = rgb2gray(imread(file));
+    LR_images{i} = abs(255-rgb2gray(imread(file)));
 end
 %imshow(LR_images{1})
 
@@ -32,3 +32,7 @@ for i = 1:5
     subplot(5,1,i)
     imshow(MR_images{i})
 end
+
+[xcorr, ycorr, max_corr, max_index] = imgCorr(MR_images);
+
+
