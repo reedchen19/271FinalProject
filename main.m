@@ -35,4 +35,4 @@ end
 
 [xcorr, ycorr, max_corr, max_index] = imgCorr(MR_images);
 
-
+[shifted, averaged] = shiftavg(MR_images, xcorr, ycorr);
