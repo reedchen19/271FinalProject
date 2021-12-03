@@ -21,7 +21,7 @@ ycorr = [];
 avg_MR = []; %averaged mid-res image @Advaita
 
 %Upsampling
-MR_images = resize(LR_images, x_LR*scale, x_LR, y_LR);
+MR_images = resize(LR_images, x_LR*scale, y_LR*scale);
 figure(1)
 for i = 1:5
     subplot(5,1,i)
