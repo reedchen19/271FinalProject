@@ -71,12 +71,5 @@ legend show
 
 %%
 % Cross-corr max
-naive = xcorr2(HR_image_ds{1}, naive{1});
-super = xcorr2(HR_image_ds{1}, final);
-
-naive = abs(fftshift(fft2(naive)));
-super = abs(fftshift(fft2(super)));
-final = abs(fftshift(fft2(final)));
-
-[M_n, I_n] = max(naive,[], 'all', 'linear')
-[M_s, I_s] = max(super, [],'all', 'linear')
+naive = xcorr2(HR_image_ds{1}), naive{1});
+super = xcorr2(HR_image_ds
