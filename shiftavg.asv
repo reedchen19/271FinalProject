@@ -39,13 +39,11 @@ function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
     for i = 1:5
         sz = size(MR_images{i});
         if sz(2) < maxx
-
             MR_images{i} = uint8([zeros(sz(1), floor((maxx-sz(2))/2)) MR_images{i} zeros(sz(1), ceil((maxx-sz(2))/2))]);
         end
         sz = size(MR_images{i});
         if sz(1) < maxy
             MR_images{i} = uint8(transpose([zeros(sz(2), floor((maxy-sz(1))/2)) transpose(MR_images{i}) zeros(sz(2), ceil((maxy-sz(1))/2))]));
-
         end
     end
     
@@ -67,7 +65,6 @@ function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
     removey = avgsz(1) - origy;
     
     final = averaged;
-
-    final = final(:,1+floor(removex/2):end-ceil(removex/2));
+    final = final(1+floor(removex/2):,1:end-ceil(removex/2)
     final = final(1+floor(removey/2):end-ceil(removey/2),:);
 end
