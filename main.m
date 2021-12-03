@@ -35,4 +35,14 @@ end
 
 [xcorr, ycorr, max_corr, max_index] = imgCorr(MR_images);
 
+[shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr);
 
+figure(3);
+for i = 1:5
+    subplot(7,1,i);
+    imshow(shifted{i});
+end
+subplot(7,1,6);
+imshow(averaged);
+subplot(7,1,7);
+imshow(final);
