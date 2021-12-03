@@ -2,7 +2,7 @@
 %cross-correlates other images against ref for image alignment
 %returns column and row shifts (Xcorr and Ycorr) of max correlation
 %index 1 of Xcorr and Ycorr = autocorrelation of reference img
-function [Xcorr, Ycorr, max_corr, max_index] = imgCorr(imgs)
+function [Xcorr, Ycorr, max_corr, max_index, imgCorr] = imgCorr(imgs)
     Xcorr = zeros([1 length(imgs)]);
     Ycorr = zeros([1 length(imgs)]);
         
@@ -17,6 +17,6 @@ function [Xcorr, Ycorr, max_corr, max_index] = imgCorr(imgs)
         [max_corr, max_index] = max(imgCorr,[],'all','linear');
         [ypeak,xpeak] = ind2sub(size(imgCorr),max_index);
         Xcorr(i) = xpeak - size(imgs{1},2);
-        Ycorr(i) = ypeak - size(imgs{2},1);
+        Ycorr(i) = ypeak - size(imgs{1},1);
     end
 end
