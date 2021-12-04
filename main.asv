@@ -1,7 +1,7 @@
 clear
 
 %import data
-HR_image = abs(255-rgb2gray(imread('./Skeletons/High_Res_Skelly.png'))); % High-res/ground truth image
+HR_image = abs(255-rgb2gray(imread('./Skeletons/Hig)'))); % High-res/ground truth image
 LR_images = {}; % low-res images
 
 for i = 1:5
@@ -44,12 +44,12 @@ end
 
 figure(3);
 for i = 1:5
-    subplot(3,3,i);
+    subplot(7,1,i);
     imshow(shifted{i});
 end
-subplot(3,3,6);
+subplot(7,1,6);
 imshow(averaged);
-subplot(3,3,7);
+subplot(7,1,7);
 imshow(final);
 %%
 % FSC analysis
