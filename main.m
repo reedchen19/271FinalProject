@@ -1,12 +1,12 @@
 clear
 
 %import data
-HR_image = abs(255-rgb2gray(imread('./stars/Full Res Star.png'))); % High-res/ground truth image
+HR_image = abs(255-rgb2gray(imread('./Circles/High_res Circle.png'))); % High-res/ground truth image
 LR_images = {}; % low-res images
 
 for i = 1:5
-    file = sprintf('./stars/Low Res Star %d.png', i);
-    %file = sprintf('./Circles/Low_res Circle %d.png', i);
+    %file = sprintf('./stars/Low Res Star %d.png', i);
+    file = sprintf('./Circles/Low_res Circle %d.png', i);
     %file = sprintf('./Pictures/Img%d_BW_400x300.png', i);
     LR_images{i} = abs(255-rgb2gray(imread(file)));
 end

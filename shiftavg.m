@@ -10,7 +10,7 @@ function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
         end
         if xcorr(i) > 0
             sz = size(MR_images{i});
-            MR_images(i) = uint8([zeros(sz(1), xcorr(i)) MR_images{i}]);
+            MR_images{i} = uint8([zeros(sz(1), xcorr(i)) MR_images{i}]);
         end
     end
     for i = 2:5
@@ -70,4 +70,6 @@ function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
 
     final = final(:,1+floor(removex/2):end-ceil(removex/2));
     final = final(1+floor(removey/2):end-ceil(removey/2),:);
+    
+    %final = abs(255-final);
 end
