@@ -1,3 +1,9 @@
+% Analysis code
+% Run main code first, then uncomment the HR_image line which corresponds
+% to the dataset used. The analysis works best for image datasets that have
+% the same size. This includes the star dataset, skeleton dataset, and picture dataset, but not the circle dataset. 
+% Additionally, the FRC analysis only works for square images with the same dimensions, so only the star dataset. 
+
 %HR_image = abs(255-rgb2gray(imread('./Skeletons/High_Res_Skelly.png'))); % High-res/ground truth image
 HR_image = abs(255-rgb2gray(imread('./stars/Full Res Star.png'))); % High-res/ground truth image
 %HR_image = abs(255-rgb2gray(imread('./Circles/High_res Circle.png')));
@@ -35,6 +41,8 @@ auto_corr = xcorr2(HR_image_ds{1});
 figure
 bar([M_n/M_a, M_s/M_a, M_nf/M_af, M_sf/M_af])
 set(gca,'xticklabel',{'Naive, Spatial','Super-Res, Spatial','Naive, Frequency','Super-Res, Frequency'})
+title('Correlation in Spatial and Frequency Domain')
+ylabel('Max Correlation / Auto-Correlation')
 
 % plot images
 figure
@@ -51,7 +59,8 @@ imshow(abs(255-HR_image_ds{1}))
 title('Original')
 
 %%
-%Fourier shell correlation
+% Fourier shell correlation - only works for square images with the same
+% dimension (star dataset)
 p = struct;
 frc = FSC(double(HR_image_ds{1}), double(naive{1}), p);
 figure
