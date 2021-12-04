@@ -1,8 +1,14 @@
+%This function takes the medium-resolution images, performs the shifting as
+%dictated by the correlations, and then averages the results and produces a
+%final upscaled image.
 function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
+    %Original Image Size for Comparison
     origsz = size(MR_images{1});
     origx = origsz(2);
     origy = origsz(1);
 
+    %Perform x shifts by padding the images with black space either to the
+    %left or to the right of the image
     for i = 2:5
         if xcorr(i) < 0
             sz = size(MR_images{i});
@@ -10,9 +16,11 @@ function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
         end
         if xcorr(i) > 0
             sz = size(MR_images{i});
-            MR_images(i) = uint8([zeros(sz(1), xcorr(i)) MR_images{i}]);
+            MR_images{i} = uint8([zeros(sz(1), xcorr(i)) MR_images{i}]);
         end
     end
+    %Perform y shifts by padding images with black space either above or
+    %below the image
     for i = 2:5
         if ycorr(i) < 0
             sz = size(transpose(MR_images{i}));
@@ -24,6 +32,8 @@ function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
         end
     end
     
+    %Determine the maximum image size of the lot to perform padding prior
+    %to averaging.
     maxx = 0;
     maxy = 0;
     for i = 1:5
@@ -36,6 +46,8 @@ function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
         end
     end
     
+    %Pad images evenly on left side, right side, above, and below to ensure
+    %that all images are the same size for averaging.
     for i = 1:5
         sz = size(MR_images{i});
         if sz(2) < maxx
@@ -49,6 +61,7 @@ function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
         end
     end
     
+    %Average the images
     shifted = {};
     for i = 1:5
         shifted{i} = MR_images{i};
@@ -66,8 +79,11 @@ function [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr)
     removex = avgsz(2) - origx;
     removey = avgsz(1) - origy;
     
+    %Crop the images to return to the original image size
     final = averaged;
 
     final = final(:,1+floor(removex/2):end-ceil(removex/2));
     final = final(1+floor(removey/2):end-ceil(removey/2),:);
+    
+    %final = abs(255-final);
 end
