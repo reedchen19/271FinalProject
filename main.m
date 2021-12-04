@@ -50,33 +50,3 @@ subplot(7,1,6);
 imshow(averaged);
 subplot(7,1,7);
 imshow(final);
-%%
-% FSC analysis
-HR_image_ds = resize({HR_image}, x_MR/x_HR); % resize HR images to same size as super-resolved image to perform FSC
-[x_HR_ds, y_HR_ds] = size(HR_image_ds{1});
-naive = resize({LR_images{1}}, 2); % naive upsampling of LR images
-
-p=struct;
-frc = FSC(double(HR_image_ds{1}), double(naive{1}), p);
-figure(4)
-hold on
-plot(frc.nu, frc.frc, 'DisplayName', 'FRC naive')
-plot(frc.nu, frc.T_hbit, 'DisplayName', '1/2 bit Threshold')
-plot(frc.nu, frc.T_bit, 'DisplayName', '1 bit Threshold')
-
-frc = FSC(double(HR_image_ds{1}), double(final), p);
-plot(frc.nu, frc.frc, 'DisplayName', 'FRC super-resolved')
-hold off
-legend show
-
-%%
-% Cross-corr max
-naive = xcorr2(HR_image_ds{1}, naive{1});
-super = xcorr2(HR_image_ds{1}, final);
-
-naive = abs(fftshift(fft2(naive)));
-super = abs(fftshift(fft2(super)));
-final = abs(fftshift(fft2(final)));
-
-[M_n, I_n] = max(naive,[], 'all', 'linear')
-[M_s, I_s] = max(super, [],'all', 'linear')
