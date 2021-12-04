@@ -33,10 +33,9 @@ auto_corr = xcorr2(HR_image_ds{1});
 [M_a, I_a] = max(auto_corr, [],'all', 'linear');
 
 figure
-bar([M_n/M_a, M_s/M_a, M_nf/M_af, M_sf/M_af])
+bar([M_n/M_a, M_s/M_a, M_nf/M_af, M_sf/M_af)
 set(gca,'xticklabel',{'Naive, Spatial','Super-Res, Spatial','Naive, Frequency','Super-Res, Frequency'})
 
-% plot images
 figure
 subplot(1,3,1)
 imshow(abs(255-naive{1}))
@@ -49,19 +48,3 @@ title('Super-Resolution')
 subplot(1,3,3)
 imshow(abs(255-HR_image_ds{1}))
 title('Original')
-
-%%
-%Fourier shell correlation
-p = struct;
-frc = FSC(double(HR_image_ds{1}), double(naive{1}), p);
-figure
-hold on
-plot(frc.nu, frc.frc, 'DisplayName', 'FRC - Naive')
-
-frc = FSC(double(HR_image_ds{1}), double(final), p);
-plot(frc.nu, frc.frc, 'DisplayName', 'FRC - Super-Resolution')
-
-plot(frc.nu, frc.T_hbit, 'DisplayName', '1/2 bit Threshold')
-plot(frc.nu, frc.T_bit, 'DisplayName', '1 bit Threshold')
-hold off
-legend show

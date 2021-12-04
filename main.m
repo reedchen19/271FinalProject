@@ -4,14 +4,14 @@ clear
 HR_image = abs(255-rgb2gray(imread('./Skeletons/High_Res_Skelly.png'))); % High-res/ground truth image
 LR_images = {}; % low-res images
 
+% Select image dataset to upsample by uncommenting
 for i = 1:5
-    %file = sprintf('./stars/Low Res Star %d.png', i);
-    %file = sprintf('./Circles/Low_res Circle %d.png', i);
-    %file = sprintf('./Pictures/Img%d_BW_400x300.png', i);
-    file = sprintf('./Skeletons/Low_Res Skelly %d.png', i);
-    LR_images{i} = abs(255-rgb2gray(imread(file)));
+    file = sprintf('./stars/Low Res Star %d.png', i); % Star images
+    %file = sprintf('./Circles/Low_res Circle %d.png', i); % Circle images
+    %file = sprintf('./Pictures/Img%d_BW_400x300.png', i); % Phone camera pictures
+    %file = sprintf('./Skeletons/Low_Res Skelly %d.png', i); % Skeleton images
+    LR_images{i} = abs(255-rgb2gray(imread(file))); % inverts image so that background is mostly 0s - gives more accurate cross-correlation results
 end
-%imshow(LR_images{1})
 
 %global variables
 scale = 2; %scaling factor
@@ -29,25 +29,30 @@ MR_images = resize(LR_images, scale);
 [x_MR, y_MR] = size(MR_images{1});
 figure(1)
 for i = 1:num_img
-    subplot(num_img,1,i)
+    subplot(2,num_img,i)
     imshow(LR_images{i})
+    title(sprintf('Low-Res Img %d.png', i))
+
 end
-figure(2)
 for i = 1:num_img
-    subplot(num_img,1,i)
+    subplot(2,num_img,i+num_img)
     imshow(MR_images{i})
+    title(sprintf('Upsampled Img %d.png', i))
 end
 
+%cross correlate images
 [xcorr, ycorr, max_corr, max_index] = imgCorr(MR_images);
 
+%shift images
 [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr);
 
-figure(3);
-for i = 1:5
-    subplot(3,3,i);
+figure(3); %plot shifted images
+for i = 1:num_img
+    subplot(1,num_img,i);
     imshow(shifted{i});
+    title(sprintf('Shifted Img %d.png', i))
 end
-subplot(3,3,6);
-imshow(averaged);
-subplot(7,1,7);
-imshow(final);
+
+figure(4) % plot final super-resolved images
+imshow(abs(255-final));
+title('Final Averaged Image')
