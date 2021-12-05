@@ -4,16 +4,17 @@
 % the same size. This includes the star dataset, skeleton dataset, and picture dataset, but not the circle dataset. 
 % Additionally, the FRC analysis only works for square images with the same dimensions, so only the star dataset. 
 
-%HR_image = abs(255-rgb2gray(imread('./Skeletons/High_Res_Skelly.png'))); % High-res/ground truth image
-HR_image = abs(255-rgb2gray(imread('./stars/Full Res Star.png'))); % High-res/ground truth image
-%HR_image = abs(255-rgb2gray(imread('./Circles/High_res Circle.png')));
-%HR_image = abs(255-rgb2gray(imread('./Pictures/Img1_BW_800x600 (HR).png')));
+% High-res/ground truth images, uncomment the line corresponding to the dataset used in main:
+%HR_image = abs(255-rgb2gray(imread('./Skeletons/High_Res_Skelly.png'))); %Skeleton
+%HR_image = abs(255-rgb2gray(imread('./stars/Full Res Star.png'))); % Star
+%HR_image = abs(255-rgb2gray(imread('./Circles/High_res Circle.png'))); %Circle
+%HR_image = abs(255-rgb2gray(imread('./Pictures/Img1_BW_800x600 (HR).png'))); % Picture
 
 [x_HR, y_HR] = size(HR_image); % high res x pixels
 HR_image_ds = resize({HR_image}, x_MR/x_HR); % resize HR images to same size as super-resolved image to perform FSC
 [x_HR_ds, y_HR_ds] = size(HR_image_ds{1});
 
-naive = resize({LR_images{1}}, 2); % naive upsampling of LR images
+naive = resize({LR_images{1}}, scale); % naive upsampling of LR images
 [x_naive, y_naive] = size(HR_image_ds{1});
 
 %frequency domain analysis
@@ -42,7 +43,7 @@ figure
 bar([M_n/M_a, M_s/M_a, M_nf/M_af, M_sf/M_af])
 set(gca,'xticklabel',{'Naive, Spatial','Super-Res, Spatial','Naive, Frequency','Super-Res, Frequency'})
 title('Correlation in Spatial and Frequency Domain')
-ylabel('
+ylabel('Max Correlation / Auto-Correlation')
 
 % plot images
 figure

@@ -46,13 +46,13 @@ end
 %shift images
 [shifted, averaged, final] = shiftavg(MR_images, xcorr, ycorr);
 
-figure(3); %plot shifted images
+figure(2); %plot shifted images
 for i = 1:num_img
     subplot(1,num_img,i);
     imshow(shifted{i});
     title(sprintf('Shifted Img %d.png', i))
 end
 
-figure(4) % plot final super-resolved images
+figure(3) % plot final super-resolved images
 imshow(abs(255-final));
 title('Final Averaged Image')
